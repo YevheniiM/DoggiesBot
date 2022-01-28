@@ -22,7 +22,8 @@ services:
     container_name: dtb_django
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/code
+      - media:/media/
+      - ./:/code
     ports:
       - "8000:8000"
     env_file:
@@ -33,6 +34,9 @@ services:
     build: .
     container_name: dtb_bot
     command: python run_pooling.py
+    volumes:
+      - media:/media/
+      - ./:/code
     env_file:
       - ./.env
     depends_on:
@@ -63,3 +67,4 @@ services:
 
 volumes:
   postgres_data:
+  media:

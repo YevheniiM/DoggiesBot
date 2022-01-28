@@ -2,6 +2,9 @@ pytz
 requests
 python-dotenv
 ipython
+pyopenssl
+pyasn1
+ndg-httpsclient
 
 # Django
 django

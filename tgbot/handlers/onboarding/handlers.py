@@ -3,11 +3,12 @@ import datetime
 from django.utils import timezone
 from telegram import ParseMode, Update
 from telegram.ext import CallbackContext
+from random import randint
 
 from tgbot.handlers.onboarding import static_text
+from tgbot.handlers.onboarding.keyboards import make_keyboard_for_start_command
 from tgbot.handlers.utils.info import extract_user_data_from_update
 from tgbot.models import User
-from tgbot.handlers.onboarding.keyboards import make_keyboard_for_start_command
 
 
 def command_start(update: Update, context: CallbackContext) -> None:
