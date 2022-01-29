@@ -6,7 +6,8 @@ pyasn1
 ndg-httpsclient
 
 # Django
-django
+django <4.0,>=2.2
+setuptools <59.7.0,>=59.1.1
 django-timezone-field 
 django-cors-headers
 django-debug-toolbar
@@ -31,6 +32,7 @@ django-celery-beat
 python-telegram-bot
 
 # AI
+tomli<2.0.0,>=0.2.6
 appnope
 argon2-cffi
 argon2-cffi-bindings
@@ -66,7 +68,7 @@ kiwisolver
 MarkupSafe
 matplotlib
 matplotlib-inline
-mistune
+mistune<2,>=0.8.1
 mypy-extensions
 nbclient
 nbconvert
@@ -100,7 +102,6 @@ six
 stack-data
 terminado
 testpath
-tomli
 torch
 torchvision
 tqdm
