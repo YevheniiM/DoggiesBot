@@ -2,6 +2,7 @@ import io
 import os.path
 
 import torch
+import torch.nn as nn
 import torchvision.models as models
 import torchvision.transforms as transforms
 from PIL import Image
@@ -50,8 +51,6 @@ with open(os.path.join(settings.MODELS_PATH, 'breeds.txt'), 'r') as f:
 # def dog_detector(img_path):
 #     if 151 <= VGG16_predict(img_path) <= 268:
 #         return True
-
-import torch.nn as nn
 
 for param in model.features.parameters():
     param.requires_grad = False
