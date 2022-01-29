@@ -77,7 +77,7 @@ class DogsHandlers:
     def identify_breed(update: Update, context: CallbackContext) -> None:
         user_id = extract_user_data_from_update(update)['user_id']
         file = context.bot.get_file(update.message.photo[-1].file_id)
-        bytes_photo = file.download_as_bytearray()
+        # bytes_photo = file.download_as_bytearray()
         breed = 'unknown'
         # breed = predict_breed_transfer(image=bytes_photo)
         context.bot.send_message(chat_id=user_id,
