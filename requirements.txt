@@ -1,7 +1,6 @@
 pytz
 requests
 python-dotenv
-ipython
 pyopenssl
 pyasn1
 ndg-httpsclient
@@ -111,7 +110,6 @@ wcwidth==0.2.5
 webencodings==0.5.1
 widgetsnbextension==3.5.2
 zipp==3.7.0
-
 
 # monitoring
 # sentry-sdk
