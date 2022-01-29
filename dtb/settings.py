@@ -154,6 +154,8 @@ if TELEGRAM_TOKEN is None:
 
 TELEGRAM_LOGS_CHAT_ID = os.getenv("TELEGRAM_LOGS_CHAT_ID", default=None)
 
+MODELS_PATH = os.getenv("MODELS_PATH", default='/code/ai/ai_models/')
+
 # -----> SENTRY
 # import sentry_sdk
 # from sentry_sdk.integrations.django import DjangoIntegration

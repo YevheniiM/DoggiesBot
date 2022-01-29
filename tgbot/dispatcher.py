@@ -22,7 +22,8 @@ from tgbot.handlers.admin import handlers as admin_handlers
 from tgbot.handlers.location import handlers as location_handlers
 from tgbot.handlers.onboarding import handlers as onboarding_handlers
 from tgbot.handlers.broadcast_message import handlers as broadcast_handlers
-from tgbot.handlers.onboarding.manage_data import HUSKY_BUTTON, GERMAN_SHEPHERD_BUTTON, AKITA_INU_BUTTON, SHIBA_INU_BUTTON, RETRIEVER_BUTTON
+from tgbot.handlers.onboarding.manage_data import HUSKY_BUTTON, GERMAN_SHEPHERD_BUTTON, AKITA_INU_BUTTON, SHIBA_INU_BUTTON, \
+    RETRIEVER_BUTTON, SEND_DOGS_BUTTON, IDENTIFY_BREED_BUTTON
 from tgbot.handlers.broadcast_message.manage_data import CONFIRM_DECLINE_BROADCAST
 from tgbot.handlers.broadcast_message.static_text import broadcast_command
 
@@ -33,6 +34,11 @@ def setup_dispatcher(dp):
     """
     # onboarding
     dp.add_handler(CommandHandler("start", onboarding_handlers.command_start))
+
+    dp.add_handler(CallbackQueryHandler(DogsHandlers.show_dogs_breeds, pattern=f"^{SEND_DOGS_BUTTON}"))
+    dp.add_handler(MessageHandler(Filters.photo, DogsHandlers.identify_breed))
+    dp.add_handler(CallbackQueryHandler(DogsHandlers.ask_for_photo, pattern=f"^{IDENTIFY_BREED_BUTTON}"))
+
     dp.add_handler(CallbackQueryHandler(DogsHandlers.husky, pattern=f"^{HUSKY_BUTTON}"))
     dp.add_handler(CallbackQueryHandler(DogsHandlers.german_shepherd, pattern=f"^{GERMAN_SHEPHERD_BUTTON}"))
     dp.add_handler(CallbackQueryHandler(DogsHandlers.akita_inu, pattern=f"^{AKITA_INU_BUTTON}"))

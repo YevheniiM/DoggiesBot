@@ -3,7 +3,8 @@ from random import randint
 from telegram import Update
 from telegram.ext import CallbackContext
 
-from tgbot.handlers.onboarding.keyboards import make_keyboard_for_start_command
+from ai.ai_logic.breed_prediction import predict_breed_transfer
+from tgbot.handlers.dogs.keyboards import show_breeds
 from tgbot.handlers.utils.info import extract_user_data_from_update
 
 
@@ -31,13 +32,13 @@ class DogsHandlers:
                 )
             print(f'sending {breed} to: ', user_id)
             context.bot.send_message(chat_id=user_id,
-                                     text="One moooore",
-                                     reply_markup=make_keyboard_for_start_command())
+                                     text="One mooore :)",
+                                     reply_markup=show_breeds())
         except Exception as ex:
             print(ex)
             context.bot.send_message(chat_id=user_id,
                                      text="Try one more time",
-                                     reply_markup=make_keyboard_for_start_command())
+                                     reply_markup=show_breeds())
 
     @staticmethod
     def husky(update: Update, context: CallbackContext) -> None:
@@ -58,3 +59,25 @@ class DogsHandlers:
     @staticmethod
     def retriever(update: Update, context: CallbackContext) -> None:
         DogsHandlers.get_doggies(update, context, breed='retriever')
+
+    @staticmethod
+    def show_dogs_breeds(update: Update, context: CallbackContext) -> None:
+        user_id = extract_user_data_from_update(update)['user_id']
+        context.bot.send_message(chat_id=user_id,
+                                 text="Here are some breeds to choose from :)",
+                                 reply_markup=show_breeds())
+
+    @staticmethod
+    def ask_for_photo(update: Update, context: CallbackContext) -> None:
+        user_id = extract_user_data_from_update(update)['user_id']
+        context.bot.send_message(chat_id=user_id,
+                                 text="Send me the photo, please :)")
+
+    @staticmethod
+    def identify_breed(update: Update, context: CallbackContext) -> None:
+        user_id = extract_user_data_from_update(update)['user_id']
+        file = context.bot.get_file(update.message.photo[-1].file_id)
+        bytes_photo = file.download_as_bytearray()
+        breed = predict_breed_transfer(image=bytes_photo)
+        context.bot.send_message(chat_id=user_id,
+                                 text=f"This is {breed[0].strip()} :)")
