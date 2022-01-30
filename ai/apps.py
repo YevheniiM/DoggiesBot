@@ -27,6 +27,8 @@ class AiConfig(AppConfig):
         with media_storage.open(os.path.join(settings.MODELS_PATH, 'breeds.txt'), "r") as f:
             class_names = f.readlines()
 
+    print("class names: ", class_names)
+
     for param in model.features.parameters():
         param.requires_grad = False
 
