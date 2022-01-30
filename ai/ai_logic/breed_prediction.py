@@ -9,27 +9,20 @@ from PIL import Image
 from django.conf import settings
 from torch import optim
 
+from ai.apps import AiConfig
 from dtb.custom_storages import media_storage
 
-transform = transforms.Compose([transforms.Resize(size=224),
-                                transforms.CenterCrop((224, 224)),
-                                transforms.RandomHorizontalFlip(),
-                                transforms.RandomRotation(10),
-                                transforms.ToTensor(),
-                                transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])])
+# transform = transforms.Compose([transforms.Resize(size=224),
+#                                 transforms.CenterCrop((224, 224)),
+#                                 transforms.RandomHorizontalFlip(),
+#                                 transforms.RandomRotation(10),
+#                                 transforms.ToTensor(),
+#                                 transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])])
 
 # train_data = datasets.ImageFolder('', transform)
 # VGG16 = models.vgg16()
-model = models.vgg16()
 
 # media_storage = MediaStorage() if not settings.DEBUG else default_storage
-
-if settings.DEBUG:
-    with open(os.path.join(settings.MODELS_PATH, 'breeds.txt'), 'r') as f:
-        class_names = f.readlines()
-else:
-    with media_storage.open(os.path.join(settings.MODELS_PATH, 'breeds.txt'), "r") as f:
-        class_names = f.readlines()
 
 # def VGG16_predict(img_path):
 #     """
@@ -59,23 +52,6 @@ else:
 # def dog_detector(img_path):
 #     if 151 <= VGG16_predict(img_path) <= 268:
 #         return True
-
-for param in model.features.parameters():
-    param.requires_grad = False
-
-n_inputs = model.classifier[6].in_features
-
-last_layer = nn.Linear(n_inputs, 133)
-
-model.classifier[6] = last_layer
-criterion_transfer = nn.CrossEntropyLoss()
-optimizer_transfer = optim.SGD(model.classifier.parameters(), lr=0.001)
-
-if settings.DEBUG:
-    model.load_state_dict(torch.load(os.path.join(settings.MODELS_PATH, '/breed_prediction.pt')))
-else:
-    with media_storage.open(os.path.join(settings.MODELS_PATH, 'breed_prediction.pt'), "rb") as f:
-        model.load_state_dict(torch.load(io.BytesIO(f.read())))
 
 
 def run_app(img_path):
@@ -110,10 +86,10 @@ def predict_breed_transfer(img_path=None, image=None, top=2):
     else:
         image = load_image(image=image)
 
-    predict = model(image)
+    predict = AiConfig.model(image)
     values, indices = torch.topk(predict.data.cpu(), top, sorted=True)
     # predict = predict.data.cpu().argmax()
-    return [class_names[i] for i in indices.tolist()[0][:top]]
+    return [AiConfig.class_names[i] for i in indices.tolist()[0][:top]]
 
 # with open("/tmp/husky-10.jpeg", 'rb') as f:
 #     print(predict_breed_transfer(image=f.read()))
