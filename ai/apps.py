@@ -26,6 +26,7 @@ class AiConfig(AppConfig):
     else:
         with media_storage.open(os.path.join(settings.MODELS_PATH, 'breeds.txt'), "r") as f:
             class_names = f.readlines()
+            class_names = [str(n) for n in class_names]
 
     print("class names: ", class_names)
 
