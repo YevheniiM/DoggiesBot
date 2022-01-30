@@ -139,14 +139,16 @@ if DEBUG:
 else:
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = 'doggies-bot'
-    AWS_S3_ENDPOINT_URL = 'https://doggies-bot.fra1.digitaloceanspaces.com/'
+    AWS_S3_SIGNATURE_VERSION = 's3v4'
     AWS_S3_OBJECT_PARAMETERS = {
         'CacheControl': 'max-age=86400',
     }
     AWS_LOCATION = 'static/'
 
-    STATIC_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_LOCATION)
+    AWS_STORAGE_BUCKET_NAME = 'doggies-bot'
+    AWS_S3_ENDPOINT_URL = 'https://{}.fra1.digitaloceanspaces.com'.format(AWS_STORAGE_BUCKET_NAME)
+    STATIC_URL = '%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_LOCATION)
+
     STATICFILES_STORAGE = 'dtb.custom_storages.StaticStorage'
     DEFAULT_FILE_STORAGE = 'dtb.custom_storages.MediaStorage'
 
