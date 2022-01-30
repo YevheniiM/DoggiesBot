@@ -1,14 +1,12 @@
-from django.apps import AppConfig
 import io
 import os.path
 
 import torch
 import torch.nn as nn
 import torchvision.models as models
-from django.core.files.storage import default_storage
-import torchvision.transforms as transforms
-from PIL import Image
+from django.apps import AppConfig
 from django.conf import settings
+from django.core.files.storage import default_storage
 from torch import optim
 
 from dtb.custom_storages import media_storage
@@ -26,9 +24,7 @@ class AiConfig(AppConfig):
     else:
         with media_storage.open(os.path.join(settings.MODELS_PATH, 'breeds.txt'), "r") as f:
             class_names = f.readlines()
-            class_names = [str(n) for n in class_names]
-
-    print("class names: ", class_names)
+            class_names = [n.decode("utf-8").strip() for n in class_names]
 
     for param in model.features.parameters():
         param.requires_grad = False
