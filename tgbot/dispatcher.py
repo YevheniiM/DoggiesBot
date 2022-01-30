@@ -46,8 +46,9 @@ def setup_dispatcher(dp):
     dp.add_handler(CallbackQueryHandler(DogsHandlers.retriever, pattern=f"^{RETRIEVER_BUTTON}"))
 
     # admin commands
-    # dp.add_handler(CommandHandler("admin", admin_handlers.admin))
-    # dp.add_handler(CommandHandler("stats", admin_handlers.stats))
+    dp.add_handler(CommandHandler("admin", admin_handlers.admin))
+    dp.add_handler(CommandHandler("stats", admin_handlers.stats))
+    # dp.add_handler(CommandHandler("admin_stats", admin_handlers.admin_stats))
     # dp.add_handler(CommandHandler('export_users', admin_handlers.export_users))
 
     # location
@@ -125,33 +126,33 @@ def process_telegram_event(update_json):
 def set_up_commands(bot_instance: Bot) -> None:
     langs_with_commands: Dict[str, Dict[str, str]] = {
         'en': {
-            'start': 'Start django bot 🚀',
+            'start': 'Start Doggies bot 🚀',
             'stats': 'Statistics of bot 📊',
-            'admin': 'Show admin info ℹ️',
+            # 'admin': 'Show admin info ℹ️',
             # 'ask_location': 'Send location 📍',
             # 'broadcast': 'Broadcast message 📨',
             # 'export_users': 'Export users.csv 👥',
         },
         'es': {
-            'start': 'Iniciar el bot de django 🚀',
+            'start': 'Iniciar el bot de Doggies 🚀',
             'stats': 'Estadísticas de bot 📊',
-            'admin': 'Mostrar información de administrador ℹ️',
+            # 'admin': 'Mostrar información de administrador ℹ️',
             # 'ask_location': 'Enviar ubicación 📍',
             # 'broadcast': 'Mensaje de difusión 📨',
             # 'export_users': 'Exportar users.csv 👥',
         },
         'fr': {
-            'start': 'Démarrer le bot Django 🚀',
+            'start': 'Démarrer le bot Doggies 🚀',
             'stats': 'Statistiques du bot 📊',
-            'admin': "Afficher les informations d'administrateur ℹ️",
+            # 'admin': "Afficher les informations d'administrateur ℹ️",
             # 'ask_location': 'Envoyer emplacement 📍',
             # 'broadcast': 'Message de diffusion 📨',
             # "export_users": 'Exporter users.csv 👥',
         },
         'ru': {
-            'start': 'Запустить django бота 🚀',
+            'start': 'Запустить Doggies бота 🚀',
             'stats': 'Статистика бота 📊',
-            'admin': 'Показать информацию для админов ℹ️',
+            # 'admin': 'Показать информацию для админов ℹ️',
             # 'broadcast': 'Отправить сообщение 📨',
             # 'ask_location': 'Отправить локацию 📍',
             # 'export_users': 'Экспорт users.csv 👥',

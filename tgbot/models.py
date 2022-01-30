@@ -17,6 +17,11 @@ class AdminUserManager(Manager):
         return super().get_queryset().filter(is_admin=True)
 
 
+# class Stats(models.Model):
+#     pics_requested = models.IntegerField(default=0)
+#     predicts = models.IntegerField(default=0)
+
+
 class User(CreateUpdateTracker):
     user_id = models.PositiveBigIntegerField(primary_key=True)  # telegram_id
     username = models.CharField(max_length=32, **nb)
@@ -28,6 +33,8 @@ class User(CreateUpdateTracker):
     is_blocked_bot = models.BooleanField(default=False)
 
     is_admin = models.BooleanField(default=False)
+
+    # stats = models.ForeignKey(Stats, on_delete=models.CASCADE)
 
     objects = GetOrNoneManager()  # user = User.objects.get_or_none(user_id=<some_id>)
     admins = AdminUserManager()  # User.admins.all()

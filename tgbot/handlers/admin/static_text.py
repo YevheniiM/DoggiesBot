@@ -6,3 +6,6 @@ secret_admin_commands = f"⚠️ Secret Admin commands\n" \
 
 users_amount_stat = "<b>Users</b>: {user_count}\n" \
                     "<b>24h active</b>: {active_24}"
+
+admin_users_stat = "<b>Users</b>: {user_count}\n" \
+                   "<b>24h active</b>: {active_24}"

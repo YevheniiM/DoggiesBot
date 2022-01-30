@@ -20,15 +20,37 @@ def admin(update: Update, context: CallbackContext) -> None:
 
 def stats(update: Update, context: CallbackContext) -> None:
     """ Show help info about all secret admins commands """
-    u = User.get_user(update, context)
-    if not u.is_admin:
-        update.message.reply_text(static_text.only_for_admins)
-        return
 
     text = static_text.users_amount_stat.format(
         user_count=User.objects.count(),  # count may be ineffective if there are a lot of users.
         active_24=User.objects.filter(updated_at__gte=now() - timedelta(hours=24)).count()
     )
+
+    update.message.reply_text(
+        text,
+        parse_mode=ParseMode.HTML,
+        disable_web_page_preview=True,
+    )
+
+
+def admin_stats(update: Update, context: CallbackContext) -> None:
+    """ Show help info about all secret admins commands """
+    u = User.get_user(update, context)
+    if not u.is_admin:
+        update.message.reply_text(static_text.only_for_admins)
+        return
+
+    users_info = [f"<b>User</b>: {u.first_name} {u.last_name}\n"
+                  f"\t[<b>{u.user_id}</b>]: \n"
+                  f"\trequested photos: {u.stats.pics_requested}\n"
+                  f"\trequested predictions: {u.stats.predicts}" for u in User.objects.all()]
+
+    text = f"Stats about all the users in the system:\nNumber of users: <b>{User.objects.count()}</b>" \
+            f"\n-----------------------------------------\n\n"
+
+    for info in users_info:
+        text += info
+        text += "\n\n-----------------------------------------"
 
     update.message.reply_text(
         text,

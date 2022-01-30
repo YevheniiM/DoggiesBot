@@ -20,7 +20,7 @@ class AiConfig(AppConfig):
 
     if settings.DEBUG:
         with open(os.path.join(settings.MODELS_PATH, 'breeds.txt'), 'r') as f:
-            class_names = f.readlines()
+            class_names = [n.strip() for n in f.readlines()]
     else:
         with media_storage.open(os.path.join(settings.MODELS_PATH, 'breeds.txt'), "r") as f:
             class_names = [n.decode("utf-8").strip() for n in f.readlines()]
