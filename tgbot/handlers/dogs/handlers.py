@@ -1,11 +1,14 @@
+import os.path
 from random import randint
 
 from telegram import Update
 from telegram.ext import CallbackContext
 
 # from ai.ai_logic.breed_prediction import predict_breed_transfer
+from dtb.custom_storages import media_storage
 from tgbot.handlers.dogs.keyboards import show_breeds
 from tgbot.handlers.utils.info import extract_user_data_from_update
+from django.conf import settings
 
 
 class DogsHandlers:
@@ -25,11 +28,19 @@ class DogsHandlers:
         user_id = extract_user_data_from_update(update)['user_id']
         try:
             photo_id = randint(1, DogsHandlers.PHOTOS_RANGES[breed])
-            with open(f'/media/images/{breed}/{breed}-{photo_id}.jpeg', 'rb') as photo:
-                context.bot.send_photo(
-                    user_id,
-                    photo
-                )
+            if settings.DEBUG:
+                with open(os.path.join(settings.IMAGES_PATH, f'{breed}/{breed}-{photo_id}.jpeg'), 'rb') as photo:
+                    context.bot.send_photo(
+                        user_id,
+                        photo
+                    )
+            else:
+                with media_storage.open(os.path.join(settings.IMAGES_PATH, f'{breed}/{breed}-{photo_id}.jpeg'), "rb") as photo:
+                    context.bot.send_photo(
+                        user_id,
+                        photo
+                    )
+
             print(f'sending {breed} to: ', user_id)
             context.bot.send_message(chat_id=user_id,
                                      text="One mooore :)",

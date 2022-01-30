@@ -9,6 +9,9 @@ from PIL import Image
 from django.conf import settings
 from torch import optim
 
+from dtb.custom_storages import MediaStorage, media_storage
+from django.core.files.storage import default_storage
+
 transform = transforms.Compose([transforms.Resize(size=224),
                                 transforms.CenterCrop((224, 224)),
                                 transforms.RandomHorizontalFlip(),
@@ -20,8 +23,14 @@ transform = transforms.Compose([transforms.Resize(size=224),
 # VGG16 = models.vgg16()
 model = models.vgg16()
 
-with open(os.path.join(settings.MODELS_PATH, 'breeds.txt'), 'r') as f:
-    class_names = f.readlines()
+# media_storage = MediaStorage() if not settings.DEBUG else default_storage
+
+if settings.DEBUG:
+    with open(os.path.join(settings.MODELS_PATH, 'breeds.txt'), 'r') as f:
+        class_names = f.readlines()
+else:
+    with media_storage.open(os.path.join(settings.MODELS_PATH, 'breeds.txt'), "r") as f:
+        class_names = f.readlines()
 
 # def VGG16_predict(img_path):
 #     """
@@ -62,7 +71,13 @@ last_layer = nn.Linear(n_inputs, 133)
 model.classifier[6] = last_layer
 criterion_transfer = nn.CrossEntropyLoss()
 optimizer_transfer = optim.SGD(model.classifier.parameters(), lr=0.001)
-model.load_state_dict(torch.load(os.path.join(settings.MODELS_PATH, '/breed_prediction.pt')))
+
+if settings.DEBUG:
+    model.load_state_dict(torch.load(os.path.join(settings.MODELS_PATH, '/breed_prediction.pt')))
+else:
+    # with media_storage.open("ai_models/breeds.txt", "r") as f:
+    #     class_names = f.readlines()
+    pass
 
 
 def run_app(img_path):
