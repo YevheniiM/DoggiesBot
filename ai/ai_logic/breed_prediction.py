@@ -9,8 +9,7 @@ from PIL import Image
 from django.conf import settings
 from torch import optim
 
-from dtb.custom_storages import MediaStorage, media_storage
-from django.core.files.storage import default_storage
+from dtb.custom_storages import media_storage
 
 transform = transforms.Compose([transforms.Resize(size=224),
                                 transforms.CenterCrop((224, 224)),
@@ -75,9 +74,8 @@ optimizer_transfer = optim.SGD(model.classifier.parameters(), lr=0.001)
 if settings.DEBUG:
     model.load_state_dict(torch.load(os.path.join(settings.MODELS_PATH, '/breed_prediction.pt')))
 else:
-    # with media_storage.open("ai_models/breeds.txt", "r") as f:
-    #     class_names = f.readlines()
-    pass
+    with media_storage.open(os.path.join(settings.MODELS_PATH, 'breed_prediction.pt'), "rb") as f:
+        model.load_state_dict(torch.load(io.BytesIO(f.read())))
 
 
 def run_app(img_path):
