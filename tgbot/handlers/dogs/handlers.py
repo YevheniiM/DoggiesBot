@@ -92,4 +92,4 @@ class DogsHandlers:
         breed = predict_breed_transfer(image=bytes_photo)
         print(f"Detected breed for user [{user_id}] request: {breed}")
         context.bot.send_message(chat_id=user_id,
-                                 text=f"This is {breed[0].strip()} :)")
+                                 text=f"This is {breed} :)")
