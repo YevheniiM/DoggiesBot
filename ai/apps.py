@@ -5,6 +5,7 @@ import os.path
 import torch
 import torch.nn as nn
 import torchvision.models as models
+from django.core.files.storage import default_storage
 import torchvision.transforms as transforms
 from PIL import Image
 from django.conf import settings
@@ -38,7 +39,10 @@ class AiConfig(AppConfig):
     optimizer_transfer = optim.SGD(model.classifier.parameters(), lr=0.001)
 
     if settings.DEBUG:
-        model.load_state_dict(torch.load(os.path.join(settings.MODELS_PATH, '/breed_prediction.pt')))
+        print(f"DEBUG: Initializing model [{os.path.join(settings.MODELS_PATH, 'breed_prediction.pt')}]")
+        with default_storage.open(os.path.join(settings.MODELS_PATH, 'breed_prediction.pt'), "rb") as f:
+            model.load_state_dict(torch.load(io.BytesIO(f.read())))
     else:
+        print(f"INFO: Initializing model [{os.path.join(settings.MODELS_PATH, 'breed_prediction.pt')}]")
         with media_storage.open(os.path.join(settings.MODELS_PATH, 'breed_prediction.pt'), "rb") as f:
             model.load_state_dict(torch.load(io.BytesIO(f.read())))

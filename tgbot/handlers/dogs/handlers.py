@@ -90,5 +90,6 @@ class DogsHandlers:
         file = context.bot.get_file(update.message.photo[-1].file_id)
         bytes_photo = file.download_as_bytearray()
         breed = predict_breed_transfer(image=bytes_photo)
+        print(f"Detected breed for user [{user_id}] request: {breed}")
         context.bot.send_message(chat_id=user_id,
                                  text=f"This is {breed[0].strip()} :)")
