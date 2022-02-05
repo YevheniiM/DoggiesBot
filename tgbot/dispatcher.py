@@ -1,8 +1,8 @@
 """
     Telegram event handlers
 """
-import sys
 import logging
+import sys
 from typing import Dict
 
 import telegram.error
@@ -15,17 +15,12 @@ from telegram.ext import (
 
 from dtb.celery import app  # event processing in async mode
 from dtb.settings import TELEGRAM_TOKEN, DEBUG
-from tgbot.handlers.dogs.handlers import DogsHandlers
-
-from tgbot.handlers.utils import files, error
 from tgbot.handlers.admin import handlers as admin_handlers
-from tgbot.handlers.location import handlers as location_handlers
+from tgbot.handlers.dogs.handlers import DogsHandlers
 from tgbot.handlers.onboarding import handlers as onboarding_handlers
-from tgbot.handlers.broadcast_message import handlers as broadcast_handlers
 from tgbot.handlers.onboarding.manage_data import HUSKY_BUTTON, GERMAN_SHEPHERD_BUTTON, AKITA_INU_BUTTON, SHIBA_INU_BUTTON, \
     RETRIEVER_BUTTON, SEND_DOGS_BUTTON, IDENTIFY_BREED_BUTTON
-from tgbot.handlers.broadcast_message.manage_data import CONFIRM_DECLINE_BROADCAST
-from tgbot.handlers.broadcast_message.static_text import broadcast_command
+from tgbot.handlers.utils import error
 
 
 def setup_dispatcher(dp):
