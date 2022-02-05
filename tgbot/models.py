@@ -58,6 +58,7 @@ class User(CreateUpdateTracker):
 
         if not u.stats:
             u.stats = Stats()
+            u.stats.save()
             u.save()
 
         return u, created
