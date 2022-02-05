@@ -1,15 +1,17 @@
 import os.path
 from random import randint
 
+from django.conf import settings
 from telegram import Update
 from telegram.ext import CallbackContext
-from tgbot.models import User
 
-from ai.ai_logic.breed_prediction import predict_breed_transfer
+from ai.ai_logic.breed_prediction import DogBreedPredictionAPI
 from dtb.custom_storages import media_storage
 from tgbot.handlers.dogs.keyboards import show_breeds
 from tgbot.handlers.utils.info import extract_user_data_from_update
-from django.conf import settings
+from tgbot.models import User
+
+dog_prediction_api = DogBreedPredictionAPI()
 
 
 class DogsHandlers:
@@ -96,7 +98,7 @@ class DogsHandlers:
 
         file = context.bot.get_file(update.message.photo[-1].file_id)
         bytes_photo = file.download_as_bytearray()
-        breed = predict_breed_transfer(image=bytes_photo)
+        breed = dog_prediction_api.predict_breed_transfer(image=bytes_photo)
         print(f"Detected breeds for user [{u.user_id}] request: {breed}")
         context.bot.send_message(chat_id=u.user_id,
                                  text=f"This is {breed} :)")

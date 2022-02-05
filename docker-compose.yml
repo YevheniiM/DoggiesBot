@@ -30,17 +30,17 @@ services:
       - ./.env
     depends_on:
       - db
-  bot:
-    build: .
-    container_name: dtb_bot
-    command: python run_pooling.py
-    volumes:
-      - media:/media/
-      - ./:/code
-    env_file:
-      - ./.env
-    depends_on:
-      - web
+#  bot:
+#    build: .
+#    container_name: dtb_bot
+#    command: python run_pooling.py
+#    volumes:
+#      - media:/media/
+#      - ./:/code
+#    env_file:
+#      - ./.env
+#    depends_on:
+#      - web
   celery:
     build: .
     container_name: dtb_celery
