@@ -9,17 +9,29 @@ from tgbot.models import User, Stats
 from tgbot.tasks import broadcast_message
 
 
+@admin.register(Stats)
+class UserStats(admin.ModelAdmin):
+    list_display = [
+        'pics_requested', 'predicts'
+    ]
+
+
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = [
         'user_id', 'username', 'first_name', 'last_name',
-        'language_code', 'deep_link',
-        'created_at', 'updated_at', "is_blocked_bot",
+        'language_code', 'images_predicted', 'images_requested'
     ]
     list_filter = ["is_blocked_bot", ]
     search_fields = ('username', 'user_id')
 
     actions = ['broadcast']
+
+    def images_predicted(self, obj):
+        return obj.stats.predicts
+
+    def images_requested(self, obj):
+        return obj.stats.pics_requested
 
     def broadcast(self, request, queryset):
         """ Select users via check mark in django-admin panel, then select "Broadcast" to send message"""
@@ -45,9 +57,3 @@ class UserAdmin(admin.ModelAdmin):
                 request, "admin/broadcast_message.html", {'form': form, 'title': u'Broadcast message'}
             )
 
-
-@admin.register(Stats)
-class UserStats(admin.ModelAdmin):
-    list_display = [
-        'pics_requested', 'predicts'
-    ]

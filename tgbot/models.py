@@ -34,7 +34,7 @@ class User(CreateUpdateTracker):
 
     is_admin = models.BooleanField(default=False)
 
-    stats = models.ForeignKey(Stats, null=True, blank=True, on_delete=models.CASCADE)
+    stats = models.OneToOneField(Stats, null=True, blank=True, on_delete=models.CASCADE)
 
     objects = GetOrNoneManager()  # user = User.objects.get_or_none(user_id=<some_id>)
     admins = AdminUserManager()  # User.admins.all()
@@ -85,4 +85,3 @@ class User(CreateUpdateTracker):
         if self.username:
             return f'@{self.username}'
         return f"{self.first_name} {self.last_name}" if self.last_name else f"{self.first_name}"
-
