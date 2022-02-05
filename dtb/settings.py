@@ -173,7 +173,7 @@ if TELEGRAM_TOKEN is None:
 
 TELEGRAM_LOGS_CHAT_ID = os.getenv("TELEGRAM_LOGS_CHAT_ID", default=None)
 
-MODELS_PATH = os.getenv("MODELS_PATH", default='/code/ai/ai_models/')
+# MODELS_PATH = os.getenv("MODELS_PATH", default='/code/ai/ai_models/')
 IMAGES_PATH = os.getenv("IMAGES_PATH", default='/media/images/')
 
 # -----> SENTRY
