@@ -34,7 +34,7 @@ class User(CreateUpdateTracker):
 
     is_admin = models.BooleanField(default=False)
 
-    stats = models.OneToOneField(Stats, null=True, blank=True, on_delete=models.CASCADE)
+    stats = models.OneToOneField(Stats, null=True, blank=True, on_delete=models.SET_NULL)
 
     objects = GetOrNoneManager()  # user = User.objects.get_or_none(user_id=<some_id>)
     admins = AdminUserManager()  # User.admins.all()
