@@ -28,10 +28,12 @@ class UserAdmin(admin.ModelAdmin):
     actions = ['broadcast']
 
     def images_predicted(self, obj):
-        return obj.stats.predicts
+        if obj.stats:
+            return obj.stats.predicts
 
     def images_requested(self, obj):
-        return obj.stats.pics_requested
+        if obj.stats:
+            return obj.stats.pics_requested
 
     def broadcast(self, request, queryset):
         """ Select users via check mark in django-admin panel, then select "Broadcast" to send message"""
