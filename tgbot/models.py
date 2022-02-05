@@ -17,9 +17,9 @@ class AdminUserManager(Manager):
         return super().get_queryset().filter(is_admin=True)
 
 
-# class Stats(models.Model):
-#     pics_requested = models.IntegerField(default=0)
-#     predicts = models.IntegerField(default=0)
+class Stats(models.Model):
+    pics_requested = models.IntegerField(default=0)
+    predicts = models.IntegerField(default=0)
 
 
 class User(CreateUpdateTracker):
@@ -34,7 +34,7 @@ class User(CreateUpdateTracker):
 
     is_admin = models.BooleanField(default=False)
 
-    # stats = models.ForeignKey(Stats, on_delete=models.CASCADE)
+    stats = models.ForeignKey(Stats, null=True, blank=True, on_delete=models.CASCADE)
 
     objects = GetOrNoneManager()  # user = User.objects.get_or_none(user_id=<some_id>)
     admins = AdminUserManager()  # User.admins.all()
@@ -55,6 +55,10 @@ class User(CreateUpdateTracker):
                 if str(payload).strip() != str(data["user_id"]).strip():  # you can't invite yourself
                     u.deep_link = payload
                     u.save()
+
+        if not u.stats:
+            u.stats = Stats()
+            u.save()
 
         return u, created
 

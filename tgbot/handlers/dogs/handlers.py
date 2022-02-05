@@ -29,8 +29,8 @@ class DogsHandlers:
     @staticmethod
     def get_doggies(update: Update, context: CallbackContext, breed):
         u, created = User.get_user_and_created(update, context)
-        # u.stats.pics_requested += 1
-        # u.stats.save()
+        u.stats.pics_requested += 1
+        u.stats.save()
 
         try:
             photo_id = randint(1, DogsHandlers.PHOTOS_RANGES[breed])
@@ -93,8 +93,8 @@ class DogsHandlers:
     @staticmethod
     def identify_breed(update: Update, context: CallbackContext) -> None:
         u, created = User.get_user_and_created(update, context)
-        # u.stats.predicts += 1
-        # u.stats.save()
+        u.stats.predicts += 1
+        u.stats.save()
 
         file = context.bot.get_file(update.message.photo[-1].file_id)
         bytes_photo = file.download_as_bytearray()
