@@ -14,6 +14,7 @@ class DogBreedPredictionAPI:
         try:
             response = requests.request("POST", url, data=payload, files=files)
             breed = response.json()['breed']
+            print(f'got predicted breed: {breed}')
             return breed
         except Exception as ex:
             print('ex: ', ex)
