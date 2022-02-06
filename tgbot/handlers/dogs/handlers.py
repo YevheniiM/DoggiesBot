@@ -16,11 +16,10 @@ dog_prediction_api = DogBreedPredictionAPI()
 
 class DogsHandlers:
     PHOTOS_RANGES = {
-        'husky': 300,
-        'german_shepherd': 300,
-        'akita_inu': 72,
-        'shiba_inu': 92,
-        'retriever': 1499,
+        'husky': 396,
+        'random_image': 10185,
+        'corgi': 101,
+        'golden_retriever': 535,
     }
 
     def get_handler(self, breed: str):
@@ -33,7 +32,7 @@ class DogsHandlers:
         u.stats.save()
 
         try:
-            photo_id = randint(1, DogsHandlers.PHOTOS_RANGES[breed])
+            photo_id = randint(0, DogsHandlers.PHOTOS_RANGES[breed])
             if settings.DEBUG:
                 with open(os.path.join(settings.IMAGES_PATH, f'{breed}/{breed}-{photo_id}.jpeg'), 'rb') as photo:
                     context.bot.send_photo(
@@ -61,21 +60,29 @@ class DogsHandlers:
     def husky(update: Update, context: CallbackContext) -> None:
         DogsHandlers.get_doggies(update, context, breed='husky')
 
-    @staticmethod
-    def german_shepherd(update: Update, context: CallbackContext) -> None:
-        DogsHandlers.get_doggies(update, context, breed='german_shepherd')
+    # @staticmethod
+    # def german_shepherd(update: Update, context: CallbackContext) -> None:
+    #     DogsHandlers.get_doggies(update, context, breed='german_shepherd')
 
-    @staticmethod
-    def akita_inu(update: Update, context: CallbackContext) -> None:
-        DogsHandlers.get_doggies(update, context, breed='akita_inu')
-
-    @staticmethod
-    def shiba_inu(update: Update, context: CallbackContext) -> None:
-        DogsHandlers.get_doggies(update, context, breed='shiba_inu')
+    # @staticmethod
+    # def akita_inu(update: Update, context: CallbackContext) -> None:
+    #     DogsHandlers.get_doggies(update, context, breed='akita_inu')
+    #
+    # @staticmethod
+    # def shiba_inu(update: Update, context: CallbackContext) -> None:
+    #     DogsHandlers.get_doggies(update, context, breed='shiba_inu')
 
     @staticmethod
     def retriever(update: Update, context: CallbackContext) -> None:
-        DogsHandlers.get_doggies(update, context, breed='retriever')
+        DogsHandlers.get_doggies(update, context, breed='golden_retriever')
+
+    @staticmethod
+    def corgi(update: Update, context: CallbackContext) -> None:
+        DogsHandlers.get_doggies(update, context, breed='corgi')
+
+    @staticmethod
+    def random_image(update: Update, context: CallbackContext) -> None:
+        DogsHandlers.get_doggies(update, context, breed='random_image')
 
     @staticmethod
     def show_dogs_breeds(update: Update, context: CallbackContext) -> None:

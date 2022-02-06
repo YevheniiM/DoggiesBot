@@ -19,7 +19,7 @@ from tgbot.handlers.admin import handlers as admin_handlers
 from tgbot.handlers.dogs.handlers import DogsHandlers
 from tgbot.handlers.onboarding import handlers as onboarding_handlers
 from tgbot.handlers.onboarding.manage_data import HUSKY_BUTTON, GERMAN_SHEPHERD_BUTTON, AKITA_INU_BUTTON, SHIBA_INU_BUTTON, \
-    RETRIEVER_BUTTON, SEND_DOGS_BUTTON, IDENTIFY_BREED_BUTTON
+    RETRIEVER_BUTTON, SEND_DOGS_BUTTON, IDENTIFY_BREED_BUTTON, RANDOM_IMAGE_BUTTON, CORGI_BUTTON
 from tgbot.handlers.utils import error
 
 
@@ -35,10 +35,12 @@ def setup_dispatcher(dp):
     dp.add_handler(CallbackQueryHandler(DogsHandlers.ask_for_photo, pattern=f"^{IDENTIFY_BREED_BUTTON}"))
 
     dp.add_handler(CallbackQueryHandler(DogsHandlers.husky, pattern=f"^{HUSKY_BUTTON}"))
-    dp.add_handler(CallbackQueryHandler(DogsHandlers.german_shepherd, pattern=f"^{GERMAN_SHEPHERD_BUTTON}"))
-    dp.add_handler(CallbackQueryHandler(DogsHandlers.akita_inu, pattern=f"^{AKITA_INU_BUTTON}"))
-    dp.add_handler(CallbackQueryHandler(DogsHandlers.shiba_inu, pattern=f"^{SHIBA_INU_BUTTON}"))
+    # dp.add_handler(CallbackQueryHandler(DogsHandlers.german_shepherd, pattern=f"^{GERMAN_SHEPHERD_BUTTON}"))
+    # dp.add_handler(CallbackQueryHandler(DogsHandlers.akita_inu, pattern=f"^{AKITA_INU_BUTTON}"))
+    # dp.add_handler(CallbackQueryHandler(DogsHandlers.shiba_inu, pattern=f"^{SHIBA_INU_BUTTON}"))
     dp.add_handler(CallbackQueryHandler(DogsHandlers.retriever, pattern=f"^{RETRIEVER_BUTTON}"))
+    dp.add_handler(CallbackQueryHandler(DogsHandlers.corgi, pattern=f"^{CORGI_BUTTON}"))
+    dp.add_handler(CallbackQueryHandler(DogsHandlers.random_image, pattern=f"^{RANDOM_IMAGE_BUTTON}"))
 
     # admin commands
     dp.add_handler(CommandHandler("admin", admin_handlers.admin))
