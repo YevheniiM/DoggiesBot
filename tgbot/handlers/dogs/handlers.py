@@ -106,6 +106,7 @@ class DogsHandlers:
         file = context.bot.get_file(update.message.photo[-1].file_id)
         bytes_photo = file.download_as_bytearray()
         breed = dog_prediction_api.predict_breed_transfer(image=bytes_photo)
+        text = f"This is {breed} :)" if breed else "The Doggies Prediction API is currently unavailable, please try again later :("
         print(f"Detected breeds for user [{u.user_id}] request: {breed}")
         context.bot.send_message(chat_id=u.user_id,
-                                 text=f"This is {breed} :)")
+                                 text=text)
